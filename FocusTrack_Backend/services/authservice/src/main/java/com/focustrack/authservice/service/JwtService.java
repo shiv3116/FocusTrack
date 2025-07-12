@@ -39,11 +39,11 @@ public class JwtService {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extraAllClaims(token);
+        final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims extraAllClaims(String token) {
+    private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith((SecretKey) getSignInKey())
                 .build()
