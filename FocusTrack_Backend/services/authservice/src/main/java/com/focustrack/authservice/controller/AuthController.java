@@ -1,8 +1,8 @@
 package com.focustrack.authservice.controller;
 
+import com.focustrack.authservice.dto.LoginRequest;
 import com.focustrack.authservice.dto.RegisterRequest;
 import com.focustrack.authservice.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +27,17 @@ public class AuthController {
             response = ResponseEntity.status(HttpStatus.CREATED).body("User Registered Successfully");
         } catch (Exception e) {
             System.out.println("Error occured: "+e.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+        ResponseEntity<?> response = null;
+        try {
+            response = ResponseEntity.status(HttpStatus.OK).body(userService.loginUser(loginRequest));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return response;
     }
