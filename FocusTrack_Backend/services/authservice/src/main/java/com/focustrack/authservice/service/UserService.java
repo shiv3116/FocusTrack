@@ -4,6 +4,7 @@ import com.focustrack.authservice.dto.LoginRequest;
 import com.focustrack.authservice.dto.RegisterRequest;
 import com.focustrack.authservice.entity.Role;
 import com.focustrack.authservice.entity.User;
+import com.focustrack.authservice.exception.UserNotRegisteredException;
 import com.focustrack.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +40,7 @@ public class UserService {
             }
             userRepository.save(user);
         } catch (Exception e) {
-            System.out.println("User Not Registered: " + e.getMessage());
+            throw new UserNotRegisteredException(e);
         }
     }
 

@@ -21,24 +21,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
-        ResponseEntity<?> response = null;
-        try {
-            userService.registerUser(registerRequest);
-            response = ResponseEntity.status(HttpStatus.CREATED).body("User Registered Successfully");
-        } catch (Exception e) {
-            System.out.println("Error occured: "+e.getMessage());
-        }
-        return response;
+        userService.registerUser(registerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User Registered Successfully");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-        ResponseEntity<?> response = null;
-        try {
-            response = ResponseEntity.status(HttpStatus.OK).body(userService.loginUser(loginRequest));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return response;
+        return ResponseEntity.status(HttpStatus.OK).body(userService.loginUser(loginRequest));
     }
 }
