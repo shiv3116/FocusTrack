@@ -4,6 +4,7 @@ import com.focustrack.authservice.dto.LoginRequest;
 import com.focustrack.authservice.dto.RegisterRequest;
 import com.focustrack.authservice.entity.Role;
 import com.focustrack.authservice.entity.User;
+import com.focustrack.authservice.exception.UserNotPresentException;
 import com.focustrack.authservice.exception.UserNotRegisteredException;
 import com.focustrack.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -54,5 +57,14 @@ public class UserService {
             throw new RuntimeException(e);
         }
         return "Invalid Login Information";
+    }
+
+    public void deleteUser(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        try {
+            userRepository.delete(user.get());
+        } catch (Exception e) {
+            throw new UserNotPresentException(e);
+        }
     }
 }
