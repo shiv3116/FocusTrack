@@ -18,12 +18,10 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ResponseService responseService;
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         userService.registerUser(registerRequest);
+        ResponseService responseService = new ResponseService();
         responseService.setStatusCode(HttpStatus.CREATED.value());
         responseService.setMessage("User Registered Successfully");
         return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -32,6 +30,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         String token = userService.loginUser(loginRequest);
+        ResponseService responseService = new ResponseService();
         responseService.setStatusCode(0);
         responseService.setToken(token);
         return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -40,6 +39,7 @@ public class AuthController {
     @PostMapping("/delete/{email}")
     public ResponseEntity<?> deleteUser(@PathVariable String email) {
         userService.deleteUser(email);
+        ResponseService responseService = new ResponseService();
         responseService.setStatusCode(0);
         responseService.setMessage("User Deleted Successfully");
         return new ResponseEntity<>(responseService, HttpStatus.OK);

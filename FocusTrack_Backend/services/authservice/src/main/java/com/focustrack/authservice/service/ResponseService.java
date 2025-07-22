@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Data
-@Service
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Scope("prototype")
 public class ResponseService {
